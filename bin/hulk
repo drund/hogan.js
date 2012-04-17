@@ -27,20 +27,20 @@ var hogan  = require('../lib/hogan.js')
 // locals
 var specials       = ['/', '.', '*', '+', '?', '|','(', ')', '[', ']', '{', '}', '\\']
   , specialsRegExp = new RegExp('(\\' + specials.join('|\\') + ')', 'g')
-  , options        = { 
-    'namespace': String, 
-    'outputdir': path, 
-    'variable': String, 
-    'wrapper': String, 
+  , options        = {
+    'namespace': String,
+    'outputdir': path,
+    'variable': String,
+    'wrapper': String,
     'version': true,
     'help': true
     }
-  , shortHand      = { 
+  , shortHand      = {
     'n': ['--namespace'],
-    'o': ['--outputdir'], 
-    'v': ['--variable'], 
-    'w': ['--wrapper'], 
-    'h': ['--help'], 
+    'o': ['--outputdir'],
+    'v': ['--variable'],
+    'w': ['--wrapper'],
+    'h': ['--help'],
     'v': ['--version']
     }
   , templates;
@@ -121,11 +121,11 @@ function removeByteOrderMark(text) {
 function wrap(file, name, openedFile) {
   switch(options.wrapper) {
     case "amd":
-      return 'define('+ (!options.outputdir ? '"' + path.join(path.dirname(file), name) + '", ' : '') + '[ "hogan.js" ], function(Hogan){ return new Hogan.Template(' + hogan.compile(openedFile, { asString: 1 }) + ');});';
+      return 'define([ "hogan.js" ], function(){ return new Hogan.Template(' + hogan.compile(openedFile, { asString: 1 }) + ');});';
     default:
-      return (options.variable || 'templates') 
-        + '["' + name + '"] = new Hogan.Template(' 
-        + hogan.compile(openedFile, { asString: 1 }) 
+      return (options.variable || 'templates')
+        + '["' + name + '"] = new Hogan.Template('
+        + hogan.compile(openedFile, { asString: 1 })
         + ');';
   }
 }
